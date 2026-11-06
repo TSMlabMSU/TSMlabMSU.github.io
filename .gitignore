@@ -22,3 +22,6 @@ test-results/
 playwright-report/
 .playwright-cli/
 tsm-site-preview-*.pdf
+
+# Publish-verifier marker (local; HEAD + tree that passed)
+.publish-verified
