@@ -15,3 +15,9 @@ Everything in this repository is public, and everything merged to `main` deploys
 ## Automated check
 
 `npm run check:publish` scans every tracked file and fails on image metadata outside the allowlist, secret files and token patterns, files over 5 MB, retracted wording, and images in `src/assets/images/` that no source file references (the repo is public, and every image in `src/assets/images/research/` is copied to the live site, so an unused image is still published). CI runs it before every build and before every deploy. Rules 1, 4, 5 and 6 need a person's review; the check cannot judge them.
+
+## How publishing is checked
+
+- **Script, hard gate.** `npm run check:publish` runs in CI before every build and deploy. A failure stops the deploy.
+- **Verifier agent, judgment gate.** Before every push to the public repo, merge, visibility change or deploy, a publish-verifier agent reruns the script, checks the built site, and reviews the change against every rule above, including the rules a script cannot judge. Nothing is published without its PASS.
+- **Hook, enforcement for Claude sessions.** A local Claude Code hook blocks those commands until the verifier has passed the current commit. Sessions without the hook, such as Codex, follow the same rule by hand, and the CI script remains the backstop.
