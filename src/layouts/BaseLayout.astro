@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+// Self-hosted fonts (Fontsource) — same families/weights the design loaded from the
+// Google Fonts CDN, now bundled and served first-party (no third-party round-trip).
+import '@fontsource/spectral/300.css';
+import '@fontsource/spectral/400.css';
+import '@fontsource/spectral/400-italic.css';
+import '@fontsource/spectral/500.css';
+import '@fontsource/spectral/600.css';
+import '@fontsource/spectral/700.css';
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '@fontsource/ibm-plex-sans/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import Footer from '../components/Footer.astro';
+import site from '../data/site.yaml';
+import { scriptJson } from '../lib/safety.mjs';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  active?: string;
+  /** Schema.org JSON-LD nodes to embed in <head>. */
+  jsonld?: unknown[];
+  /** Extra <link rel="alternate"> tags for this page (e.g. publications data exports, §9). */
+  extraAlternates?: { type: string; title: string; href: string }[];
+}
+
+const {
+  title,
+  description = site.description,
+  canonical,
+  active = '',
+  jsonld = [],
+  extraAlternates = [],
+} = Astro.props;
+
+const SITE = Astro.site ?? new URL('https://tsmlabmsu.com');
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, SITE).toString();
+const feedURL = new URL('/feed.xml', SITE).toString();
+const licenseURL = site.license.url;
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Favicon / icons — the TSM turbulence-vortex mark, vectorized (public/icon.svg, dark-adaptive). */}
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+    <link rel="icon" type="image/png" href="/icon-dark.png" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#10151a" />
+    {/* No-flash theme init — must run before first paint, so it is inline, not bundled.
+        First visit follows the OS color scheme (owner decision 2026-07-03); an explicit
+        toggle is stored and always wins afterwards. Key is versioned so an old stored
+        'dark' from private dev does not carry over. */}
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('tsm-theme-v2');
+          var dark = t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+        } catch (e) {}
+      })();
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {/* CC-BY 4.0 content license. */}
+    <link rel="license" href={licenseURL} />
+    {/* Autodiscovery — machine outputs reachable from any page. */}
+    <link rel="alternate" type="application/atom+xml" title="TSM Lab — News" href={feedURL} />
+    {extraAlternates.map((a) => (
+      <link rel="alternate" type={a.type} title={a.title} href={a.href} />
+    ))}
+    {/* Schema.org JSON-LD, generated from canonical content. */}
+    {jsonld.map((node) => (
+      <script type="application/ld+json" is:inline set:html={scriptJson(node)} />
+    ))}
+    {site.analytics && (
+      <script defer src={site.analytics.src} data-site={site.analytics.id} is:inline></script>
+    )}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div style="background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100dvh;">
+      <SiteHeader active={active} />
+      <slot />
+      <Footer />
+    </div>
+    {/* Dark-mode toggle — the only behavior that still needs JS. Content is fully readable without it. */}
+    <script is:inline>
+      document.querySelectorAll('[data-theme-toggle]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+          document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+          try { localStorage.setItem('tsm-theme-v2', dark ? 'light' : 'dark'); } catch (e) {}
+        });
+      });
+    </script>
+  </body>
+</html>

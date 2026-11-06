@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EmailLink from '../components/EmailLink.astro';
+import lab from '../data/lab.yaml';
+
+const addr = lab.address;
+const piLink = (rel: string): string | undefined =>
+  lab.pi.links.find((l: { rel: string; url: string }) => l.rel === rel)?.url;
+const telHref = (s: string) => `tel:+1${s.replace(/\D/g, '')}`;
+---
+<BaseLayout active="contact" title="Contact — TSM Lab @ MSU">
+    <main id="main">
+      <section class="pad" style="max-width:880px;margin:0 auto;padding:72px 64px 24px;">
+        <div style="display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;"><span aria-hidden="true" style="width:26px;height:1px;background:var(--accent);flex:none;"></span><span>Contact</span></div>
+        <h1 class="h1" style="font-family:var(--serif);font-weight:600;font-size:clamp(2.2rem,1.6rem+2.2vw,3rem);line-height:1.05;letter-spacing:-.6px;margin:0;">Get in touch</h1>
+        <p style="font-size:clamp(1rem,.95rem+.4vw,1.15rem);line-height:1.6;color:var(--ink2);max-width:60ch;margin:20px 0 0;">{lab.pages.contact.lede}</p>
+      </section>
+
+      <section class="pad" style="max-width:880px;margin:0 auto;padding:32px 64px 80px;">
+        <div class="contact-grid reveal" style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;border-top:1px solid var(--line);padding-top:40px;">
+          <div>
+            <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:18px;">Lab details</div>
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:14px 22px;font-size:15px;align-items:baseline;">
+              <span style="font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);">Address</span>
+              <address style="font-style:normal;color:var(--ink2);line-height:1.6;">{addr.street}<br />{addr.locality}, {addr.region} {addr.postalCode}, {addr.country}</address>
+              <span style="font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);">Email</span>
+              <span><EmailLink label="Email Prof. Yuan" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;" /></span>
+              <span style="font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);">Phone</span>
+              <span><a href={telHref(addr.phone)} style="color:var(--ink2);text-decoration:none;">{addr.phone}</a></span>
+              <span style="font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);">Fax</span>
+              <span style="color:var(--ink2);">{addr.fax}</span>
+              <span style="font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);">Dept.</span>
+              <span><a href={piLink('faculty')} style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">engineering.msu.edu/faculty/Junlin-Yuan</a></span>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:18px;">Principal Investigator</div>
+            <h2 style="font-family:var(--serif);font-weight:600;font-size:22px;margin:0 0 4px;">Prof. Junlin Yuan</h2>
+            <div style="font-size:14px;color:var(--muted);margin-bottom:18px;">{lab.pi.title}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;">
+              <a href={piLink('scholar')} target="_blank" rel="noopener" style="font-size:14px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">Google Scholar</a>
+              <a href={piLink('researchgate')} target="_blank" rel="noopener" style="font-size:14px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">ResearchGate</a>
+              <a href={piLink('orcid')} style="font-size:14px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">ORCID</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal" style="margin-top:56px;border:1px solid var(--line);border-radius:4px;background:var(--bg2);padding:40px 40px;">
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:14px;">Join us</div>
+          <h2 style="font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,1.3rem+1vw,2rem);letter-spacing:-.3px;margin:0 0 16px;max-width:22ch;">{lab.pages.contact.joinUs.heading}</h2>
+          <p style="font-size:16px;line-height:1.7;color:var(--ink2);margin:0 0 22px;max-width:62ch;">{lab.pages.contact.joinUs.body}</p>
+          <EmailLink label="Email Prof. Yuan →" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--ink2);border-radius:3px;padding:11px 20px;" />
+        </div>
+      </section>
+    </main>
+
+  <style>
+    /* Page-specific responsive rule from the design's <style> not present in global.css */
+    @media (max-width:760px){
+      .contact-grid{grid-template-columns:1fr !important;gap:36px !important;}
+    }
+  </style>
+</BaseLayout>

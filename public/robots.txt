@@ -1,0 +1,51 @@
+# robots.txt — Turbulence Simulation & Modeling (TSM) Lab, Michigan State University
+# Policy: welcome ALL crawlers — search, live-fetch, and training.
+# This file expresses a preference, not access control. User agents that ignore robots.txt
+# cannot be enforced here. Site content is licensed CC-BY 4.0; see /llms.txt and page footers.
+# Hosted paper PDFs are author-accepted manuscripts / publisher versions under the
+# respective publisher's terms — NOT CC-BY. Per-paper rights are in each publication's
+# JSON-LD (usageInfo / creativeWorkStatus). TDM preference: /.well-known/tdmrep.json.
+
+# --- Search + live-fetch agents (cite the lab — pure upside) ---
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+User-agent: Applebot
+Allow: /
+
+# --- Training crawlers (wider reach; one-way-door caveat accepted, D6) ---
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: meta-externalagent
+Allow: /
+
+# --- UAs observed to ignore robots.txt (listed for intent only; not enforceable here) ---
+User-agent: Bytespider
+Allow: /
+User-agent: DeepSeekBot
+Allow: /
+
+# --- Everything else ---
+User-agent: *
+Allow: /
+
+Sitemap: https://tsmlabmsu.com/sitemap.xml

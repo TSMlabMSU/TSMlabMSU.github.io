@@ -1,0 +1,307 @@
+---
+/*
+  Provider-agnostic, content-as-data video embed.
+
+  Every iframe provider renders as a plain link to the canonical video URL. With JS,
+  clicking swaps the iframe in place so nothing third-party loads before the user opts in.
+  The native Cloudflare R2 path needs no JS and supports range requests. Provider settings
+  come from build-time environment variables and default to a visible TODO(owner) sentinel;
+  missing configuration degrades to the canonical watch-page link rather than a guessed URL.
+*/
+
+export interface Props {
+  provider:
+    | 'mediaspace'
+    | 'cloudflare-r2'
+    | 'cloudflare-stream'
+    | 'descript'
+    | 'youtube'
+    | 'vimeo';
+  /** entryId / stream UID / share id / R2 file key / youtube|vimeo video id. */
+  id: string;
+  /** Required for accessibility (used as the visible caption + iframe/video title). */
+  title: string;
+  /** Optional poster image URL (repo asset URL or absolute). */
+  poster?: string;
+  /** Optional explicit source/iframe URL override; bypasses per-provider URL building. */
+  src?: string;
+  /** Same as `src`; accepted as an alias for ergonomics. */
+  url?: string;
+  /** CSS aspect-ratio for the frame. Default '16 / 9'. */
+  aspect?: string;
+}
+
+const { provider, id, title, poster, src, url, aspect = '16 / 9' } = Astro.props;
+const override = src ?? url;
+
+// ── Env / site config (read at build time). Defaults are TODO(owner) sentinels so a
+//    missing value is loud, not a silently-broken or fabricated URL. ────────────────
+// PUBLIC_MEDIA_BASE_URL — Cloudflare Worker base for R2 files.
+const MEDIA_BASE = import.meta.env.PUBLIC_MEDIA_BASE_URL || 'TODO(owner)';
+// PUBLIC_CF_STREAM_CODE — Cloudflare Stream customer subdomain code (customer-<code>...).
+const CF_STREAM_CODE = import.meta.env.PUBLIC_CF_STREAM_CODE || 'TODO(owner)';
+// PUBLIC_MEDIASPACE_BASE — MSU MediaSpace/Kaltura iframe embed base (partner+uiconf bound).
+// Unknown by default → we fall back to the public watch page rather than guess Kaltura ids.
+const MEDIASPACE_EMBED_BASE = import.meta.env.PUBLIC_MEDIASPACE_BASE || '';
+
+const isTodo = (v: string) => v === 'TODO(owner)' || v === '';
+
+// ── Per-provider URL derivation ────────────────────────────────────────────────────
+// Returns:
+//   kind: 'video'  → native <video> (no JS, no facade)
+//   kind: 'iframe' → facade: canonical <a href=watch> + JS swaps in iframe (embed)
+type Resolved =
+  | { kind: 'video'; videoSrc: string }
+  | { kind: 'iframe'; embed: string | null; watch: string };
+
+function resolve(): Resolved {
+  switch (provider) {
+    case 'cloudflare-r2': {
+      // Native <video> whose <source> is served by the R2-backed Worker (Range-seekable).
+      const videoSrc = override ?? `${MEDIA_BASE}/${id}`;
+      return { kind: 'video', videoSrc };
+    }
+    case 'cloudflare-stream': {
+      const embed = override
+        ?? (isTodo(CF_STREAM_CODE)
+          ? null
+          : `https://customer-${CF_STREAM_CODE}.cloudflarestream.com/${id}/iframe`);
+      // Canonical reachable watch URL even before the code is configured.
+      const watch = embed
+        ?? `https://customer-${CF_STREAM_CODE}.cloudflarestream.com/${id}/watch`;
+      return { kind: 'iframe', embed, watch };
+    }
+    case 'mediaspace': {
+      // Public, always-reachable Kaltura watch page on MSU MediaSpace (the canonical link).
+      const watch = `https://mediaspace.msu.edu/media/${id}`;
+      // Iframe embed only when the MSU embed base (partner/uiconf bound) is configured —
+      // never fabricate Kaltura partner/uiconf ids.
+      const embed = override
+        ?? (MEDIASPACE_EMBED_BASE
+          ? `${MEDIASPACE_EMBED_BASE}${id}`
+          : null);
+      return { kind: 'iframe', embed, watch };
+    }
+    case 'descript': {
+      const embed = override ?? `https://share.descript.com/embed/${id}`;
+      const watch = `https://share.descript.com/view/${id}`;
+      return { kind: 'iframe', embed, watch };
+    }
+    case 'youtube': {
+      // Privacy-friendly: youtube-nocookie for the embed.
+      const embed = override
+        ?? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      const watch = `https://www.youtube.com/watch?v=${id}`;
+      return { kind: 'iframe', embed, watch };
+    }
+    case 'vimeo': {
+      const embed = override ?? `https://player.vimeo.com/video/${id}?autoplay=1`;
+      const watch = `https://vimeo.com/${id}`;
+      return { kind: 'iframe', embed, watch };
+    }
+  }
+}
+
+const r = resolve();
+
+const providerLabel: Record<Props['provider'], string> = {
+  mediaspace: 'MSU MediaSpace',
+  'cloudflare-r2': 'Video',
+  'cloudflare-stream': 'Cloudflare Stream',
+  descript: 'Descript',
+  youtube: 'YouTube',
+  vimeo: 'Vimeo',
+};
+
+// Unique id so multiple embeds on one page never collide (facade JS scopes to it).
+const uid = `ve-${Math.random().toString(36).slice(2, 10)}`;
+---
+
+{r.kind === 'video' ? (
+  <figure class="videoembed" style={`--ve-aspect:${aspect};`}>
+    <div class="videoembed-frame">
+      <video
+        controls
+        preload="metadata"
+        playsinline
+        poster={poster}
+        title={title}
+        aria-label={title}
+      >
+        <source src={r.videoSrc} type="video/mp4" />
+        <track kind="captions" />
+        Your browser does not support the video tag.
+        <a href={r.videoSrc}>Download the video</a>.
+      </video>
+    </div>
+    <figcaption class="videoembed-cap">
+      <span class="videoembed-prov">{providerLabel[provider]}</span>
+      <span class="videoembed-title">{title}</span>
+    </figcaption>
+  </figure>
+) : (
+  <figure class="videoembed" style={`--ve-aspect:${aspect};`}>
+    {/*
+      ZERO-JS FACADE. Without JS this is just a link to the canonical, reachable video
+      With the inline script, click swaps in the iframe in place. If the embed
+      URL is unknown (TODO(owner) config) the facade has no data-embed → it stays a plain
+      link to the watch page, never a broken iframe.
+    */}
+    <a
+      id={uid}
+      class="videoembed-facade"
+      href={r.watch}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Play video: ${title} (${providerLabel[provider]})`}
+      data-embed={r.embed ?? ''}
+      data-title={title}
+    >
+      <span class="videoembed-frame">
+        {poster && <img src={poster} alt="" loading="lazy" decoding="async" />}
+        <span class="videoembed-play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="34" height="34" focusable="false">
+            <path d="M8 5v14l11-7z" fill="currentColor" />
+          </svg>
+        </span>
+      </span>
+    </a>
+    <figcaption class="videoembed-cap">
+      <span class="videoembed-prov">{providerLabel[provider]}</span>
+      <span class="videoembed-title">{title}</span>
+    </figcaption>
+  </figure>
+)}
+
+{r.kind === 'iframe' && r.embed && (
+  // Tiny, scoped progressive-enhancement script: only this facade, only on click.
+  <script
+    is:inline
+    set:html={`(function(){
+      var el=document.getElementById('${uid}');
+      if(!el)return;
+      el.addEventListener('click',function(ev){
+        var embed=el.getAttribute('data-embed');
+        if(!embed)return; /* no embed → leave as a normal link */
+        ev.preventDefault();
+        var frame=el.querySelector('.videoembed-frame');
+        if(!frame)return;
+        var ifr=document.createElement('iframe');
+        ifr.setAttribute('src',embed);
+        ifr.setAttribute('title',el.getAttribute('data-title')||'Video');
+        ifr.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
+        ifr.setAttribute('allowfullscreen','');
+        ifr.setAttribute('loading','lazy');
+        ifr.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0;';
+        frame.innerHTML='';
+        frame.appendChild(ifr);
+        el.removeAttribute('href');
+        el.style.cursor='default';
+      });
+    })();`}
+  />
+)}
+
+<style>
+  .videoembed {
+    margin: 0;
+    border: 1px solid var(--line);
+    background: var(--bg2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .videoembed-frame {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--ve-aspect, 16 / 9);
+    background: var(--bg2);
+    /* subtle grayscale film while empty */
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent 0 11px,
+      color-mix(in srgb, var(--line) 55%, transparent) 11px 12px
+    );
+  }
+  .videoembed-frame video,
+  .videoembed-frame img,
+  .videoembed-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+    display: block;
+  }
+  /* facade link fills the frame */
+  .videoembed-facade {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .videoembed-facade .videoembed-frame {
+    cursor: pointer;
+  }
+  /* grayscale poster; lifts to color on hover/focus to signal interactivity */
+  .videoembed-facade img {
+    filter: grayscale(1) contrast(1.02);
+    transition: filter 0.25s ease, transform 0.25s ease;
+  }
+  .videoembed-facade:hover img,
+  .videoembed-facade:focus-visible img {
+    filter: grayscale(0.15);
+  }
+  .videoembed-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border: 1px solid var(--line2);
+    color: var(--ink);
+    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  }
+  .videoembed-facade:hover .videoembed-play,
+  .videoembed-facade:focus-visible .videoembed-play {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  .videoembed-facade:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .videoembed-cap {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 9px 12px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .videoembed-prov {
+    flex: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .videoembed-title {
+    color: var(--ink2);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .videoembed-facade img,
+    .videoembed-play {
+      transition: none !important;
+    }
+  }
+</style>

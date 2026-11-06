@@ -1,0 +1,30 @@
+# src/data/site.yaml — Site singleton
+title: "TSM Lab @ MSU"
+tagline: "Turbulence Simulation & Modeling Lab"
+canonicalUrl: "https://tsmlabmsu.com"
+description: "Turbulence Simulation & Modeling (TSM) Lab at Michigan State University — large-scale, high-fidelity simulation of wall-bounded turbulence and next-generation predictive models."
+# Primary nav — single source for SiteHeader (desktop + mobile). `key` matches the `active`
+# prop each page passes; `menuLabel` (optional) overrides `label` in the mobile menu only.
+nav:
+  - { key: "home", label: "Home", href: "/" }
+  - { key: "team", label: "Team", href: "/team" }
+  - { key: "research", label: "Research", href: "/research" }
+  - { key: "publications", label: "Publications", href: "/publications" }
+  - { key: "data", label: "Data", menuLabel: "Data & Code", href: "/data" }
+  - { key: "news", label: "News", href: "/news" }
+  - { key: "contact", label: "Contact", href: "/contact-us" }
+contact:
+  dept: "Department of Mechanical Engineering"
+  address: "428 South Shaw Lane, East Lansing, MI 48824"
+  email: "junlin@msu.edu"
+profileLinks:
+  googleScholar: "https://scholar.google.ca/citations?user=Je5B1hYAAAAJ"
+  researchGate: "https://www.researchgate.net/profile/Junlin-Yuan"
+  msuFaculty: "https://engineering.msu.edu/faculty/Junlin-Yuan"
+  orcid: "0000-0002-4711-6452"
+license: { name: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/", spdx: "CC-BY-4.0" }
+codeLicense: { name: "MIT", spdx: "MIT" }
+analytics:
+  provider: selfhosted
+  id: tsmlab
+  src: https://stats-tsmlab.vercel.app/t.js

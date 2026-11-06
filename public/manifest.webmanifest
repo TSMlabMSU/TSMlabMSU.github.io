@@ -1,0 +1,11 @@
+{
+  "name": "TSM Lab — Turbulence Simulation & Modeling, Michigan State University",
+  "short_name": "TSM Lab",
+  "icons": [
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "theme_color": "#33485f",
+  "background_color": "#ffffff",
+  "display": "browser"
+}

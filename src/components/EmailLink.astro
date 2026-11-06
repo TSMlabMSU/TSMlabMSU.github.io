@@ -1,0 +1,23 @@
+---
+// Obfuscated email link. The address is emitted HTML-entity-encoded, so naive harvester
+// bots that regex-scrape `addr@domain` / `mailto:` from page source miss it, while real
+// browsers decode it normally (works with zero JS). The visible text is a label, never the
+// raw address, so the email remains reachable without appearing plainly in rendered text.
+// The PI email also appears in JSON-LD intentionally.
+import lab from '../data/lab.yaml';
+import { escapeHtml } from '../lib/safety.mjs';
+interface Props {
+  label?: string;
+  style?: string;
+  class?: string;
+}
+const { label = 'Email Prof. Yuan', style = '', class: cls = '' } = Astro.props;
+const enc = (s: string) => [...s].map((c) => `&#${c.charCodeAt(0)};`).join('');
+// Email comes from lab.yaml; split at `@` so the literal address never appears as one
+// contiguous string in the rendered HTML (the entity-encoding does the harvester defeat).
+const [emailUser, emailDomain] = lab.address.email.split('@');
+const href = enc('mailto:' + emailUser + '@' + emailDomain);
+const attrs = `${cls ? ` class="${escapeHtml(cls)}"` : ''}${style ? ` style="${escapeHtml(style)}"` : ''}`;
+const html = `<a href="${href}"${attrs}>${escapeHtml(label)}</a>`;
+---
+<Fragment set:html={html} />

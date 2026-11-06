@@ -1,0 +1,24 @@
+---
+// Shared site footer — single source. The "Open & machine-readable" links point to the
+// generated machine-layer outputs at the site root (built in the AI/robot layer).
+import EmailLink from './EmailLink.astro';
+import lab from '../data/lab.yaml';
+import site from '../data/site.yaml';
+---
+<footer class="footer-pad inkband" style="padding:56px 64px 52px;background:var(--bg);">
+  <div style="max-width:920px;margin:0 auto;display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between;">
+    <div style="max-width:36ch;">
+      <div style="font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:-.3px;margin-bottom:12px;">{site.tagline}</div>
+      <address style="font-style:normal;font-size:13px;color:var(--muted);line-height:1.8;">{lab.department}, {lab.parentOrg.name}<br />{lab.address.street}, {lab.address.locality}, {lab.address.region} {lab.address.postalCode}<br /><EmailLink label="Email the PI" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;" /></address>
+    </div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.9;">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:8px;">Open &amp; machine-readable</div>
+      <a href="/llms.txt" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">llms.txt</a> &nbsp;·&nbsp;
+      <a href="/sitemap.xml" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">sitemap.xml</a> &nbsp;·&nbsp;
+      <a href="/feed.xml" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">feed.xml</a><br />
+      <a href="/publications.bib" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">publications.bib</a> &nbsp;·&nbsp;
+      <a href="/datasets.json" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">datasets.json</a>
+    </div>
+  </div>
+  <div style="max-width:920px;margin:26px auto 0;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted2);">© {lab.shortName}, {lab.parentOrg.name} &nbsp;·&nbsp; Content licensed <a href={site.license.url} style="color:var(--muted);text-decoration:underline;text-underline-offset:3px;">{site.license.name}</a></div>
+</footer>

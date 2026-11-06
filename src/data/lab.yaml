@@ -1,0 +1,87 @@
+# src/data/lab.yaml — Lab singleton
+name: "Turbulence Simulation & Modeling (TSM) Lab"
+shortName: "TSM Lab"
+# Mission / about — verbatim from Home "What we do".
+mission: "At the Turbulence Simulation and Modeling (TSM) Lab at Michigan State University, we understand the fundamentals of turbulence through large-scale, high-fidelity simulations and develop next-gen physics- or data-based predictive methods. Applications address engineering and environmental problems challenging for traditional approaches."
+# ALL page-level editable copy lives here — ledes, headings, hero/photo captions, recruitment
+# text. The .astro pages read from this block, so edit copy in THIS file, never in the pages.
+# Image fields use the file BASENAME (resolved to an optimized asset by the page); alt/caption
+# are plain editable prose. Each research `intro` array item renders as its own paragraph.
+pages:
+  home:
+    heroSubtitle: "We simulate turbulence at high fidelity, and build the models that predict it."
+    heroImage:
+      file: "hero-bedform-vorticity-mobile.png"
+      alt: "Instantaneous spanwise vorticity of turbulent flow over a mobile sediment bedform: the streamwise-wall-normal plane showing the intense shear layer draping the bed crest and the overlying turbulence."
+    # Optional ambient hero loop — set `heroVideo: { url: "<R2 mp4/webm URL>" }` to play a
+    # slow muted simulation loop in place of the still image on wide viewports. The still
+    # image stays as poster + fallback (mobile, reduced-motion, no-JS). Unset = image only.
+    # heroVideo:
+    #   url: ""
+  research:
+    heading: "What we study"
+    intro:
+      - "We use large-scale, high-fidelity simulation to understand complex wall-bounded turbulent flows, then turn what we resolve into physics- and data-based models that predict it. These flows are rarely simple. They carry pressure gradients, roughness, wall permeability, rotation, compressibility, and unsteadiness, where conventional models tend to break."
+      - "Our tools are direct and large-eddy simulations, plus machine learning. We build closures for RANS and LES models, and immersed-boundary methods for flow over complex shapes. The themes below are where most of our work sits today. We keep following the physics into nearby problems."
+  team:
+    lede: "The people behind the lab's simulations and models, past and present."
+    groupPhoto:
+      file: "team-2019-apsdfd.jpg"
+      alt: "TSM Lab group photo at the 2019 APS-DFD Annual Meeting."
+      caption: "Photo at the 2019 APS-DFD Annual Meeting. From left to right: Timur Aminov, Prof. Mostafa Aghaei Jouybari, Prof. Giles Brereton (Collaborator), Dr. Sai Chaitanya Mangavelli, Dr. Saurabh Pargal, Dr. Guangchen Shen, and Prof. Junlin Yuan (Director)."
+  publications:
+    lede: "Peer-reviewed journal articles and selected conference papers, newest first."
+  news:
+    lede: "Papers, defenses, awards, and grants, newest first."
+  data:
+    lede: "Open datasets from our simulations, each with a citable DOI and linked to the paper it supports."
+  contact:
+    lede: "Reach the lab directly, or ask about graduate and undergraduate research opportunities."
+    joinUs:
+      heading: "We’re looking for curious people to take on turbulence."
+      body: "We are always looking for motivated graduate and undergraduate students to join our team and tackle the fundamental and applied problems of turbulence. Prospective students are encouraged to contact Prof. Yuan via email with their curriculum vitae."
+# FOCUS phenomena (Home "What we do") — wall-bounded turbulent flows characterized by these. Kept SEPARATE from applications.
+focusPhenomena:
+  - "Pressure gradients"
+  - "Unsteadiness"
+  - "Surface roughness & permeability"
+  - "Compressibility"
+  - "Multiple phases"
+# Applications (Home "What we do") — a SEPARATE list from focusPhenomena.
+applications:
+  - "Vehicles & vessels"
+  - "Turbomachinery"
+  - "Biogeochemistry"
+  - "Animal locomotion"
+  - "Atmospheric flows"
+funders: ["ONR", "NSF", "Industry"]
+parentOrg: { name: "Michigan State University", url: "https://msu.edu", ror: "https://ror.org/05hs6h993" }
+department: "Department of Mechanical Engineering"
+address:
+  street: "428 South Shaw Lane"
+  locality: "East Lansing"
+  region: "MI"
+  postalCode: "48824"
+  country: "USA"
+  email: "junlin@msu.edu"
+  phone: "517-353-6733"
+  fax: "517-353-1750"
+pi:
+  name: "Junlin Yuan"
+  slug: "junlin-yuan"
+  title: "Director / Associate Professor, Department of Mechanical Engineering, Michigan State University"
+  # Team page PI sidebar: research topics (joined with ` · `), application areas, funders is `funders` above.
+  topics: ["Non-equilibrium turbulence", "Wall roughness", "Wall permeability", "Reactive transport", "Turbulence-induced noise", "Fluid–structure interaction"]
+  areas: "Engineering, environmental, and bio-locomotive topics"
+  # Bio — verbatim from Home "Principal Investigator" block.
+  bio: "Prof. Yuan developed large-scale, high-fidelity numerical simulation methods for complex wall-bounded turbulent flows. Her research goal is to push the boundaries of physical understandings of complex, realistic turbulence, and to develop physics-based and empirical closures for a wide range of applications."
+  # Longer bio — verbatim from the Team "Principal Investigator" block (includes degree provenance).
+  bioTeam: "Associate Professor, Department of Mechanical Engineering, Michigan State University. MS (2011) and PhD (2015) degrees from Queen's University, Canada. Prof. Yuan developed large-scale, high-fidelity numerical simulation methods for wall-bounded turbulent flows with complex boundary geometry. Her research goal is to push the boundaries of physical understandings of complex, realistic turbulence, and to develop physics-based and empirical closures for a wide range of applications."
+  cvUrl: "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/cv/junlin-yuan-cv.pdf"
+  orcid: "0000-0002-4711-6452"
+  links:
+    - { label: "Google Scholar", url: "https://scholar.google.ca/citations?user=Je5B1hYAAAAJ", rel: "scholar" }
+    - { label: "ResearchGate", url: "https://www.researchgate.net/profile/Junlin-Yuan", rel: "researchgate" }
+    - { label: "MSU Faculty", url: "https://engineering.msu.edu/faculty/Junlin-Yuan", rel: "faculty" }
+    - { label: "ORCID", url: "https://orcid.org/0000-0002-4711-6452", rel: "orcid" }
+sameAs: []

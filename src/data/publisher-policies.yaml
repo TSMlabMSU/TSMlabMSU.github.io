@@ -1,0 +1,83 @@
+# Self-archiving policy, keyed by publisher — MAINTAIN THIS ONCE PER PUBLISHER, not per paper.
+#
+# This is the single source of truth for what version of a paper the lab may self-host and the
+# rights statement that must appear (a) stamped on the PDF's first page and (b) next to the
+# on-page download link and in the machine layer. A paper in publications.csl.json only declares
+# its `version` (`aam` = author-accepted manuscript, or `vor` = version of record) + `DOI`; the
+# statement is DERIVED from this table by scripts/stamp_rights.py (PDF) and src/lib/rights.ts (site).
+#
+# DON'T-FORGET GUARD: scripts/validate-content.mjs FAILS the build if any CSL entry has a `pdfUrl`
+# but (a) no `version`, or (b) a publisher not in this table, or (c) a `version` not in `hostable`,
+# or (d) is still inside `embargoMonths` from its issued date. So a future paper cannot be published
+# with an unresolved rights decision. To add a publisher: add a key below. To add a paper: set its
+# `version` + `DOI` in the CSL and re-run `npm run stamp` + `npm run build`.
+#
+# Statement templates use {journal} {volpage} {year} {doi}. Policies were verified in June 2026
+# against publisher author-rights pages and SHERPA RoMEO.
+
+# Journals — keyed by the exact `container-title` string used in publications.csl.json.
+journals:
+  "J. Fluid Mech.":
+    publisher: "Cambridge University Press"
+    hostable: [aam]            # AAM only — never the publisher's typeset VoR PDF
+    embargoMonths: 6
+    policyUrl: "https://www.cambridge.org/core/open-research/green-open-access-policy-for-journals"
+    statement: "Accepted manuscript. Version of record published in Journal of Fluid Mechanics{volpage} ({year}), https://doi.org/{doi}. © Cambridge University Press. Provided for private study; not for redistribution."
+  "Phys. Fluids":
+    publisher: "AIP Publishing"
+    hostable: [aam]
+    embargoMonths: 0
+    policyUrl: "https://publishing.aip.org/resources/researchers/rights-and-permissions/sharing-content-online/"
+    statement: "Author-accepted manuscript. Published in Physics of Fluids{volpage} ({year}), https://doi.org/{doi}. This article may be downloaded for personal use only. © {year} AIP Publishing."
+  "Phys. Rev. Fluids":
+    publisher: "American Physical Society"
+    hostable: [aam, vor]       # APS permits the published version on the author's site
+    embargoMonths: 0
+    policyUrl: "https://journals.aps.org/copyrightFAQ.html"
+    statement: "Published in Physical Review Fluids{volpage} ({year}). © {year} American Physical Society. https://doi.org/{doi}."
+  "J. Turbul.":
+    publisher: "Taylor & Francis"
+    hostable: [aam]
+    embargoMonths: 12
+    policyUrl: "https://authorservices.taylorandfrancis.com/publishing-your-research/moving-through-production/copyright-for-journal-authors/"
+    statement: "Accepted manuscript of an article published by Taylor & Francis in Journal of Turbulence ({year}), available online: https://doi.org/{doi}."
+  "J. Fluids Eng.":
+    publisher: "ASME"
+    hostable: [aam]
+    embargoMonths: 12
+    policyUrl: "https://www.asme.org/publications-submissions/journals/information-for-authors/journal-guidelines/rights-and-permissions"
+    statement: "Author-accepted manuscript. Version of record: https://doi.org/{doi}. © {year} ASME."
+  "Water Resour. Res.":
+    publisher: "American Geophysical Union"
+    hostable: [aam, vor]
+    embargoMonths: 0
+    policyUrl: "https://www.agu.org/publications/authors/policies"
+    statement: "Accepted for publication in Water Resources Research. © {year} American Geophysical Union. https://doi.org/{doi}. Further reproduction or electronic distribution is not permitted."
+  "IOP Conf. Ser.":
+    publisher: "IOP Publishing"
+    hostable: [vor]            # gold open access — VoR is CC-BY; link the DOI rather than self-host
+    embargoMonths: 0
+    openAccess: true
+    policyUrl: "https://publishingsupport.iopscience.iop.org/author-rights-policies/"
+    statement: "Open-access article in IOP Conference Series ({year}) under CC-BY 4.0; version of record at https://doi.org/{doi}."
+  "Int. J. Heat Fluid Flow":
+    publisher: "Elsevier"
+    hostable: [aam]            # Elsevier permits the AAM on the authors' own non-commercial site immediately (CC-BY-NC-ND + DOI link); the 24-mo embargo applies to institutional/subject repositories, NOT a personal/group homepage. VoR (typeset) is never hostable.
+    embargoMonths: 0
+    policyUrl: "https://www.elsevier.com/about/policies-and-standards/sharing"
+    statement: "Accepted manuscript. Version of record published in International Journal of Heat and Fluid Flow{volpage} ({year}), https://doi.org/{doi}. © {year} Elsevier Inc. Shared on the authors' site under CC BY-NC-ND 4.0; not for redistribution."
+  "J. Fluids Struct.":
+    publisher: "Elsevier"
+    hostable: [aam]            # same Elsevier author-sharing basis as IJHFF above; a public arXiv preprint also exists for this paper (arXiv:2509.04670). VoR (typeset) is never hostable.
+    embargoMonths: 0
+    policyUrl: "https://www.elsevier.com/about/policies-and-standards/sharing"
+    statement: "Accepted manuscript. Version of record published in Journal of Fluids and Structures{volpage} ({year}), https://doi.org/{doi}. © {year} Elsevier B.V. Shared on the authors' site under CC BY-NC-ND 4.0; not for redistribution."
+
+# Society / non-publisher conference proceedings (CSL type `paper-conference`): author/society
+# retains rights, self-hosting is standard, no required statement — a light attribution is added.
+conference:
+  publisher: "conference proceedings"
+  hostable: [aam, vor]
+  embargoMonths: 0
+  policyUrl: ""
+  statement: "Author's version of a paper presented at {journal} ({year})."

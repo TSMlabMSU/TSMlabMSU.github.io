@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image, getImage } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { researchOrganization, piPerson } from '../lib/jsonld';
+import lab from '../data/lab.yaml';
+import type { ImageMetadata } from 'astro';
+// Re-hosted, Astro-optimized figures (src/assets/images/, never hot-linked).
+import portraitYuan from '../assets/images/people/junlin-yuan.jpg';
+
+const pi = lab.pi;
+// Research teasers come FROM the research collection (single source of truth), ordered
+// by `order`; each theme's figure + alt live in its own frontmatter. Adding a theme is
+// just a new .md plus an image — no page edit and no hard-coded count. Figures resolve
+// to Astro-optimized assets via import.meta.glob, keyed by file basename.
+const figModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/images/research/*.{png,jpg,jpeg,webp,avif,svg}',
+  { eager: true }
+);
+const figByBase: Record<string, ImageMetadata> = {};
+for (const [path, mod] of Object.entries(figModules)) {
+  figByBase[path.split('/').pop()!] = mod.default;
+}
+const resolveFig = (p?: string): ImageMetadata | undefined =>
+  p ? figByBase[p.split('/').pop()!] : undefined;
+const heroImg = resolveFig(lab.pages.home.heroImage.file);
+// The hero is height-filled under object-fit:cover, so width-based srcset selection can
+// choose a candidate with too few vertical pixels. Serve one full-resolution WebP at every
+// viewport; the optimized 5143×2400 asset is only about 250 KiB.
+const heroImage = heroImg
+  ? await getImage({
+      src: heroImg,
+      width: heroImg.width,
+      format: 'webp',
+      quality: 80,
+    })
+  : undefined;
+// Optional ambient hero loop (lab.yaml pages.home.heroVideo.url, an R2-hosted mp4/webm).
+// Loaded only on wide viewports without reduced-motion; the still image is the fallback
+// everywhere else, so leaving heroVideo unset keeps today's behavior exactly.
+const heroVideo: { url: string } | undefined = lab.pages.home.heroVideo;
+const piLink = (rel: string): string | undefined =>
+  lab.pi.links.find((l: { rel: string; url: string }) => l.rel === rel)?.url;
+const themes = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+
+// Home news teaser: 4 most recent items, FROM the news collection (single source of truth).
+const recentNews = (await getCollection('news'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+// Bare YYYY-MM-DD dates parse as UTC midnight — read back in UTC to avoid an off-by-one day.
+const pad2 = (n: number) => String(n).padStart(2, '0');
+const fmtDate = (d: Date) => `${d.getUTCFullYear()} · ${pad2(d.getUTCMonth() + 1)} · ${pad2(d.getUTCDate())}`;
+const isoDate = (d: Date) => `${d.getUTCFullYear()}-${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())}`;
+// Descriptive link text (a bare "Link" says nothing to screen readers or scanners).
+const linkLabel = (cat?: string) =>
+  cat === 'talk' || cat === 'video' ? 'Video ↗' : cat === 'paper' ? 'Paper ↗' : 'Link ↗';
+
+const jsonld = [researchOrganization(), piPerson()];
+---
+<BaseLayout active="home" title="TSM Lab @ MSU — Turbulence Simulation & Modeling" jsonld={jsonld}>
+  <main id="main">
+
+    {/* Editorial cover: the masthead band and the hero figure are ONE surface. The
+        simulation field fills the section behind the title, which sits over the field's
+        dim upper region. The 5143x2400 hero is height-fit under object-fit:cover, so the
+        full vertical composition (dim top, luminous shear layer low) stays in frame and
+        the crop is mostly horizontal — no scrim or gradient needed for legibility. The
+        media is oversized to 130% height and anchored top, so the luminous shear layer
+        (at ~62% of the image) lands near the cover's bottom edge, clear of the text. */}
+    <section class="inkband cover" style="position:relative;overflow:hidden;border-bottom:1px solid var(--line);">
+      {heroImage && (
+        <img class="heroimg cover-media" src={heroImage.src} width={heroImg?.width} height={heroImg?.height} alt={lab.pages.home.heroImage.alt} loading="eager" fetchpriority="high" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:130%;object-fit:cover;object-position:center top;" />
+      )}
+      {heroVideo?.url && (
+        <video class="herovid cover-media" data-video-src={heroVideo.url} poster={heroImage?.src} muted loop playsinline autoplay preload="none" aria-hidden="true" hidden style="display:none;position:absolute;top:0;left:0;width:100%;height:130%;object-fit:cover;object-position:center top;"></video>
+      )}
+      <div class="hero pad cover-text" style="position:relative;padding:96px 64px 240px;text-align:center;max-width:980px;margin:0 auto;">
+        <div class="kicker-rule" style="display:flex;align-items:center;justify-content:center;gap:18px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--ink2);margin-bottom:28px;"><span aria-hidden="true" style="width:56px;height:1px;background:var(--line2);flex:none;"></span><span>Michigan State University · Department of Mechanical Engineering</span><span aria-hidden="true" style="width:56px;height:1px;background:var(--line2);flex:none;"></span></div>
+        <h1 class="h1" style="font-family:var(--serif);font-weight:600;font-size:clamp(2.6rem,1.7rem+3.6vw,4.1rem);line-height:1.02;letter-spacing:-1.5px;margin:0 auto;max-width:16ch;">Turbulence Simulation &amp; Modeling Lab</h1>
+        <p style="font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(1.08rem,1rem+.55vw,1.32rem);line-height:1.55;color:var(--ink2);max-width:52ch;margin:26px auto 0;">{lab.pages.home.heroSubtitle}</p>
+      </div>
+    </section>
+    {heroVideo?.url && (
+      <script is:inline>
+        // Ambient hero loop: load only on wide viewports without reduced-motion; the
+        // still image above stays as the poster/fallback everywhere else.
+        (function () {
+          var v = document.querySelector('.herovid');
+          if (!v) return;
+          if (!matchMedia('(min-width: 761px)').matches) return;
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          v.src = v.dataset.videoSrc;
+          v.hidden = false;
+          v.style.display = 'block';
+          var img = document.querySelector('.heroimg');
+          if (img) img.style.display = 'none';
+          if (v.play) v.play().catch(function () {});
+        })();
+      </script>
+    )}
+
+    <section class="pad reveal" style="max-width:720px;margin:0 auto;padding:64px 64px 16px;">
+      <div style="display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;"><span aria-hidden="true" style="width:26px;height:1px;background:var(--accent);flex:none;"></span><span>What we do</span></div>
+      <p style="font-size:clamp(1rem,.96rem+.3vw,1.08rem);line-height:1.7;color:var(--ink2);margin:0;">
+        <span style="float:left;font-family:var(--serif);font-weight:600;font-size:62px;line-height:.82;padding:6px 12px 0 0;color:var(--ink);">{lab.mission.charAt(0)}</span>{lab.mission.slice(1)}</p>
+      <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:38px;padding-top:30px;border-top:1px solid var(--line);">
+        <div>
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:14px;">Focus phenomena</div>
+          <ul style="list-style:none;margin:0;padding:0;font-size:15px;line-height:2;color:var(--ink2);">
+            {lab.focusPhenomena.map((p: string) => (<li>{p}</li>))}
+          </ul>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:14px;">Applications</div>
+          <ul style="list-style:none;margin:0;padding:0;font-size:15px;line-height:2;color:var(--ink2);">
+            {lab.applications.map((a: string) => (<li>{a}</li>))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad" style="max-width:920px;margin:0 auto;padding:52px 64px;">
+      <div class="reveal" style="display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;"><span aria-hidden="true" style="width:26px;height:1px;background:var(--accent);flex:none;"></span><span>Research</span></div>
+      <h2 class="reveal" style="font-family:var(--serif);font-weight:600;font-size:clamp(1.6rem,1.3rem+1.2vw,2rem);letter-spacing:-.3px;margin:0 0 36px;">{lab.pages.research.heading}</h2>
+
+      {themes.map((t, i) => {
+        const img = resolveFig(t.data.figure);
+        const alt = t.data.figureAlt ?? '';
+        const figRight = i % 2 === 0; // alternate figure side; rows with no figure span full width
+        const last = i === themes.length - 1;
+        const rowClass = figRight ? 'rrow' : 'rrow-rev';
+        const rowStyle = `display:flex;gap:36px;align-items:center;padding:30px 0;border-top:1px solid var(--line);${last ? 'border-bottom:1px solid var(--line);' : ''}${figRight ? '' : 'flex-direction:row-reverse;'}`;
+        return (
+      <div class={rowClass} style={rowStyle}>
+        {img && (<figure class="rfig" style="margin:0;flex:none;width:420px;"><Image src={img} alt={alt} widths={[420, 840]} sizes="(max-width: 760px) 100vw, 420px" loading="lazy" style="display:block;width:100%;height:auto;background:#fff;" /></figure>)}
+        <div class="reveal">
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--muted2);margin-bottom:10px;">{String(i + 1).padStart(2, '0')}</div>
+          <h3 style="font-family:var(--serif);font-weight:600;font-size:clamp(1.25rem,1.1rem+.5vw,1.5rem);letter-spacing:-.2px;margin:0 0 8px;">{t.data.title}</h3>
+          <p style="font-size:15px;line-height:1.6;color:var(--muted);margin:0;">{t.data.summary}</p>
+        </div>
+      </div>
+        );
+      })}
+    </section>
+
+    <section class="pad" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+      <div class="reveal pi-row" style="max-width:920px;margin:0 auto;padding:56px 64px;display:flex;gap:44px;align-items:flex-start;">
+        <div class="pi-photo" style="flex:none;width:230px;border:1px solid var(--line2);">
+          <Image src={portraitYuan} alt="Prof. Junlin Yuan, Principal Investigator of the TSM Lab." widths={[230, 460]} sizes="(max-width: 760px) 190px, 230px" loading="lazy" style="display:block;width:100%;height:auto;" />
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;">Principal Investigator</div>
+          <h2 style="font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,1.3rem+1vw,1.9rem);margin:0 0 6px;letter-spacing:-.3px;">{pi.name}</h2>
+          <div style="font-size:14px;color:var(--muted);margin-bottom:16px;">Director / Associate Professor, Department of Mechanical Engineering</div>
+          <p style="font-size:15px;line-height:1.7;color:var(--ink2);margin:0 0 20px;max-width:54ch;">{pi.bio}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;">
+            <a href={pi.cvUrl} target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:var(--bg);background:var(--ink);text-decoration:none;border:1px solid var(--ink);border-radius:3px;padding:9px 16px;">CV (PDF) ↗</a>
+            <a href={piLink('scholar')} target="_blank" rel="noopener" style="font-size:14px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">Google Scholar</a>
+            <a href={piLink('researchgate')} target="_blank" rel="noopener" style="font-size:14px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">ResearchGate</a>
+            <a href={piLink('faculty')} target="_blank" rel="noopener" style="font-size:14px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">MSU Faculty</a>
+            <a href={piLink('orcid')} style="font-size:14px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">orcid.org/0000-0002-4711-6452</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pad reveal" style="max-width:720px;margin:0 auto;padding:56px 64px;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:18px;">
+        <div style="display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);"><span aria-hidden="true" style="width:26px;height:1px;background:var(--accent);flex:none;"></span><span>News &amp; updates</span></div>
+        <a href="/news" style="font-size:13px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">All news →</a>
+      </div>
+{recentNews.map((item, idx) => {
+  const last = idx === recentNews.length - 1;
+  const rowStyle = `display:flex;gap:24px;padding:16px 0;border-top:1px solid var(--line);${last ? 'border-bottom:1px solid var(--line);' : ''}transition-delay:${(idx * 0.09).toFixed(2)}s;`;
+  return (
+      <div class="newsrow reveal" style={rowStyle}>
+        <time datetime={isoDate(item.data.date)} style="flex:none;width:128px;font-family:var(--mono);font-size:13px;color:var(--muted2);">{fmtDate(item.data.date)}</time>
+        <div style="font-size:15px;line-height:1.55;color:var(--ink2);">{item.data.title}{item.data.link && (<> <a href={item.data.link} style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;">{linkLabel(item.data.category)}</a></>)}</div>
+      </div>
+  );
+})}
+    </section>
+
+  </main>
+
+</BaseLayout>

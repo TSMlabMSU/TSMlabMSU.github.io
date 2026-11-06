@@ -1,0 +1,1132 @@
+[
+  {
+    "id": "ShenEPY26",
+    "type": "article",
+    "title": "Direct numerical simulations of hyporheic exchange induced by hydraulically rough bedforms",
+    "author": [
+      { "family": "Shen", "given": "G." },
+      { "family": "Erickson", "given": "T. J." },
+      { "family": "Phanikumar", "given": "M. S." },
+      { "family": "Yuan", "given": "J." }
+    ],
+    "container-title": "ESS Open Archive (preprint)",
+    "issued": { "date-parts": [[2026]] },
+    "DOI": "10.22541/essoar.15005312/v1"
+  },
+  {
+    "id": "ArdisterAGFY26",
+    "type": "article-journal",
+    "title": "Modeling and computational fluid dynamics validation of a nonholonomically constrained two-rigid-body swimming system",
+    "author": [
+      { "family": "Ardister", "given": "J." },
+      { "family": "Geddes", "given": "J." },
+      { "family": "Feeny", "given": "B. F." },
+      { "family": "Yuan", "given": "J." }
+    ],
+    "container-title": "J. Fluids Struct.",
+    "issued": { "date-parts": [[2026]] },
+    "volume": "142",
+    "page": "104510",
+    "DOI": "10.1016/j.jfluidstructs.2026.104510",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/ardister-etal-2026-jfs.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanYGP25",
+    "type": "article-journal",
+    "title": "Near-wall characteristics of non-equilibrium turbulent boundary layers on rough walls",
+    "author": [
+      { "family": "Yuan", "given": "J." },
+      { "family": "Gatzek", "given": "M." },
+      { "family": "Pargal", "given": "S." }
+    ],
+    "container-title": "Int. J. Heat Fluid Flow",
+    "issued": { "date-parts": [[2025]] },
+    "volume": "116",
+    "page": "109937",
+    "DOI": "10.1016/j.ijheatfluidflow.2025.109937",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-etal-2025-ijhff.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "PargalPYM24a",
+    "type": "article-journal",
+    "title": "A generalized wall-pressure spectral model for non-equilibrium boundary layers",
+    "author": [
+      {
+        "family": "Pargal",
+        "given": "S."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Moreau",
+        "given": "S."
+      }
+    ],
+    "container-title": "J. Fluid Mech.",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    },
+    "volume": "996",
+    "page": "A27",
+    "DOI": "10.1017/jfm.2024.665",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/pargal-etal-2024-jfm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanYGP24",
+    "type": "paper-conference",
+    "title": "Near-wall characteristics of non-equilibrium turbulent boundary layers on rough walls",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Gatzek",
+        "given": "M."
+      },
+      {
+        "family": "Pargal",
+        "given": "S."
+      }
+    ],
+    "container-title": "TSFP13, Montreal",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-etal-2024-tsfp13.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "CaiazzoCPW23",
+    "type": "article-journal",
+    "title": "On the effect of adverse pressure gradients on wall-pressure statistics in a controlled-diffusion aerofoil turbulent boundary layer",
+    "author": [
+      {
+        "family": "Caiazzo",
+        "given": "A."
+      },
+      {
+        "family": "Pargal",
+        "given": "S."
+      },
+      {
+        "family": "Wu",
+        "given": "H."
+      },
+      {
+        "family": "Sanjose",
+        "given": "M."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Moreau",
+        "given": "S."
+      }
+    ],
+    "container-title": "J. Fluid Mech.",
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    },
+    "volume": "960",
+    "page": "A17",
+    "DOI": "10.1017/jfm.2023.157",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/caiazzo-etal-2023-jfm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "Aghaei-JouybariAYLBJ23",
+    "type": "article-journal",
+    "title": "Supersonic turbulent flows over sinusoidal rough walls",
+    "author": [
+      {
+        "family": "Aghaei-Jouybari",
+        "given": "M."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Li",
+        "given": "Z."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      },
+      {
+        "family": "Jaberi",
+        "given": "F. A."
+      }
+    ],
+    "container-title": "J. Fluid Mech.",
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    },
+    "volume": "956",
+    "page": "A3",
+    "DOI": "10.1017/jfm.2022.1049",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/aghaeijouybari-etal-2023-jfm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YangYZYK23",
+    "type": "article-journal",
+    "title": "In search of a universal rough wall model",
+    "author": [
+      {
+        "family": "Yang",
+        "given": "X."
+      },
+      {
+        "family": "Zhang",
+        "given": "W."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Kunz",
+        "given": "R. F."
+      }
+    ],
+    "container-title": "J. Fluids Eng.",
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    },
+    "volume": "145",
+    "page": "101302",
+    "DOI": "10.1115/1.4062820",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yang-etal-2023-jfe.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "MangavelliMY23",
+    "type": "article-journal",
+    "title": "Effects of form-induced velocity in rough-wall turbulent channel flows",
+    "author": [
+      {
+        "family": "Mangavelli",
+        "given": "S. C."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "J. Turbul.",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "DOI": "10.1080/14685248.2022.2131799",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/mangavelli-yuan-2023-jturbul.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "Aghaei-JouybariASY22",
+    "type": "article-journal",
+    "title": "Contributions to pressure drag in rough-wall turbulent flows: insights from force partitioning",
+    "author": [
+      {
+        "family": "Aghaei Jouybari",
+        "given": "M."
+      },
+      {
+        "family": "Seo",
+        "given": "J.-H."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Mittal",
+        "given": "R."
+      },
+      {
+        "family": "Meneveau",
+        "given": "C."
+      }
+    ],
+    "container-title": "Phys. Rev. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "volume": "7",
+    "page": "084602",
+    "DOI": "10.1103/PhysRevFluids.7.084602",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/aghaeijouybari-etal-2022-prf.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "ShenSYP22",
+    "type": "article-journal",
+    "title": "Quantifying the effects of bed roughness on transit time distributions via direct numerical simulations of turbulent hyporheic exchange",
+    "author": [
+      {
+        "family": "Shen",
+        "given": "G."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Phanikumar",
+        "given": "M. S."
+      }
+    ],
+    "container-title": "Water Resour. Res.",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "volume": "58",
+    "page": "e2021WR030503",
+    "DOI": "10.1029/2021WR030503",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/shen-etal-2022-wrr.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "PargalPWY22",
+    "type": "article-journal",
+    "title": "Adverse-pressure-gradient turbulent boundary layer on convex wall",
+    "author": [
+      {
+        "family": "Pargal",
+        "given": "S."
+      },
+      {
+        "family": "Wu",
+        "given": "H."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Moreau",
+        "given": "S."
+      }
+    ],
+    "container-title": "Phys. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "volume": "34",
+    "page": "035107",
+    "DOI": "10.1063/5.0083919",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/pargal-etal-2022-pof.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "ShenYP22",
+    "type": "paper-conference",
+    "title": "Direct numerical simulations of hyporheic exchange induced by rough bedforms",
+    "author": [
+      {
+        "family": "Shen",
+        "given": "G."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Phanikumar",
+        "given": "M. S."
+      }
+    ],
+    "container-title": "TSFP-12, Osaka",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/shen-etal-2022-tsfp12.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "BreretonBYA22",
+    "type": "paper-conference",
+    "title": "DNS data-driven modeling of turbulent flows over rough walls",
+    "author": [
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Aghaei-Jouybari",
+        "given": "M."
+      }
+    ],
+    "container-title": "34th Symp. Naval Hydrodynamics",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/brereton-etal-2022-snh.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "BreretonBAY21f",
+    "type": "article-journal",
+    "title": "Towards modeling of turbulent flow over surfaces of arbitrary roughness",
+    "author": [
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      },
+      {
+        "family": "Aghaei Jouybari",
+        "given": "M."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "Phys. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "volume": "33",
+    "page": "065121",
+    "DOI": "10.1063/5.0051097",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/brereton-etal-2021-pof.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "MangavelliMYB21k",
+    "type": "article-journal",
+    "title": "Effects of surface roughness topography in transient channel flows",
+    "author": [
+      {
+        "family": "Mangavelli",
+        "given": "S. C."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      }
+    ],
+    "container-title": "J. Turbul.",
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "page": "434-460",
+    "DOI": "10.1080/14685248.2021.1927057",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/mangavelli-etal-2021-jturbul.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "Aghaei-JouybariAYBM21",
+    "type": "article-journal",
+    "title": "Data-driven prediction of the equivalent sand-grain height in rough-wall turbulent flows",
+    "author": [
+      {
+        "family": "Aghaei Jouybari",
+        "given": "M."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      },
+      {
+        "family": "Murillo",
+        "given": "M. S."
+      }
+    ],
+    "container-title": "J. Fluid Mech.",
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "volume": "912",
+    "page": "A8",
+    "DOI": "10.1017/jfm.2020.1085",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/aghaeijouybari-etal-2021-jfm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "PargalPYB21v",
+    "type": "article-journal",
+    "title": "Impulse response of turbulent flow in smooth and riblet-walled channels to a sudden velocity increase",
+    "author": [
+      {
+        "family": "Pargal",
+        "given": "S."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      }
+    ],
+    "container-title": "J. Turbul.",
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/pargal-etal-2021-jturbul.pdf",
+    "version": "aam",
+    "DOI": "10.1080/14685248.2021.1885676"
+  },
+  {
+    "id": "PargalPWYM21",
+    "type": "paper-conference",
+    "title": "Non-equilibrium turbulent boundary layer with adverse pressure gradient and convex wall curvature",
+    "author": [
+      {
+        "family": "Pargal",
+        "given": "S."
+      },
+      {
+        "family": "Wu",
+        "given": "H."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Moreau",
+        "given": "S."
+      }
+    ],
+    "container-title": "CFD Society of Canada",
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/pargal-etal-2021-cfdsc.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YangYXLLY20a",
+    "type": "article-journal",
+    "title": "Mean flow scaling in a spanwise rotating channel",
+    "author": [
+      {
+        "family": "Yang",
+        "given": "X."
+      },
+      {
+        "family": "Xia",
+        "given": "X."
+      },
+      {
+        "family": "Lee",
+        "given": "Z."
+      },
+      {
+        "family": "Lv",
+        "given": "Y."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "Phys. Rev. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "volume": "5",
+    "page": "074603",
+    "DOI": "10.1103/PhysRevFluids.5.074603",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yang-etal-2020-prf.pdf",
+    "version": "vor"
+  },
+  {
+    "id": "ShenSYP20b",
+    "type": "article-journal",
+    "title": "Direct numerical simulations of turbulence and hyporheic mixing near sediment–water interfaces",
+    "author": [
+      {
+        "family": "Shen",
+        "given": "G."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Phanikumar",
+        "given": "M. S."
+      }
+    ],
+    "container-title": "J. Fluid Mech.",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "volume": "892",
+    "page": "A20",
+    "DOI": "10.1017/jfm.2020.173",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/shen-etal-2020-jfm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "Aghaei-JouybariAYB20",
+    "type": "paper-conference",
+    "title": "DNS data-driven modeling of turbulent flows over rough walls",
+    "author": [
+      {
+        "family": "Aghaei Jouybari",
+        "given": "M."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      }
+    ],
+    "container-title": "33rd Symp. Naval Hydrodynamics",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/aghaeijouybari-etal-2020-snh.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanYMBIV19a",
+    "type": "article-journal",
+    "title": "Single-point structure tensors in turbulent channel flows with smooth and wavy walls",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Mishra",
+        "given": "A. A."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      },
+      {
+        "family": "Iaccarino",
+        "given": "G."
+      },
+      {
+        "family": "Vartdal",
+        "given": "M."
+      }
+    ],
+    "container-title": "Phys. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "volume": "31",
+    "DOI": "10.1063/1.5130629",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-etal-2019-pof.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "AghaeiBY19a",
+    "type": "article-journal",
+    "title": "Turbulence structures over realistic and synthetic wall roughness in open channel flow at Reτ = 1000",
+    "author": [
+      {
+        "family": "Aghaei Jouybari",
+        "given": "M."
+      },
+      {
+        "family": "Brereton",
+        "given": "G."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "J. Turbul.",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "volume": "20",
+    "page": "723-749",
+    "DOI": "10.1080/14685248.2019.1706741",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/aghaeijouybari-etal-2019-jturbul.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "WuWPY19b",
+    "type": "article-journal",
+    "title": "Turbulence statistics in rotating channel flows with rough walls",
+    "author": [
+      {
+        "family": "Wu",
+        "given": "W."
+      },
+      {
+        "family": "Piomelli",
+        "given": "U."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "Int. J. Heat Fluid Flow",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "volume": "80",
+    "page": "108467",
+    "DOI": "10.1016/j.ijheatfluidflow.2019.108467",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/wu-etal-2019-ijhff.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanYB19a",
+    "type": "paper-conference",
+    "title": "Structure of turbulent flows on heterogeneous irregular rough surfaces",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      }
+    ],
+    "container-title": "TSFP-11",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-etal-2019-tsfp11.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanYA18",
+    "type": "article-journal",
+    "title": "Topographical effects of roughness on turbulence statistics in roughness sublayer",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Aghaei Jouybari",
+        "given": "M."
+      }
+    ],
+    "container-title": "Phys. Rev. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "volume": "3",
+    "page": "114603",
+    "DOI": "10.1103/PhysRevFluids.3.114603",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-yang-2018-prf.pdf",
+    "version": "vor"
+  },
+  {
+    "id": "BreretonBY18a",
+    "type": "article-journal",
+    "title": "Wall-roughness eddy viscosity for Reynolds-averaged closures",
+    "author": [
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "Int. J. Heat Fluid Flow",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "volume": "73",
+    "page": "74-81",
+    "DOI": "10.1016/j.ijheatfluidflow.2018.07.009"
+  },
+  {
+    "id": "YuanYBIM18a",
+    "type": "paper-conference",
+    "title": "Single-point structure tensors in rough-wall turbulent channel flow",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Brereton",
+        "given": "G. J."
+      },
+      {
+        "family": "Iaccarino",
+        "given": "G."
+      },
+      {
+        "family": "Mishra",
+        "given": "A. A."
+      },
+      {
+        "family": "Vartdal",
+        "given": "M."
+      }
+    ],
+    "container-title": "2018 CTR Summer Program",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-etal-2018-ctr.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "PiomelliPWY18a",
+    "type": "paper-conference",
+    "title": "Effect of roughness on wall-bounded flows subjected to spanwise rotation",
+    "author": [
+      {
+        "family": "Piomelli",
+        "given": "U."
+      },
+      {
+        "family": "Wu",
+        "given": "W."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "ETMM12",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/piomelli-etal-2018-etmm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanY17",
+    "type": "paper-conference",
+    "title": "Effects of surface roughness topography in developed and transient channel flows",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "TSFP-10, Chicago",
+    "issued": {
+      "date-parts": [
+        [
+          2017
+        ]
+      ]
+    },
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-yang-2017-tsfp10.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanYP15",
+    "type": "article-journal",
+    "title": "Numerical simulation of a spatially developing accelerating boundary layer over roughness",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Piomelli",
+        "given": "U."
+      }
+    ],
+    "container-title": "J. Fluid Mech.",
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "volume": "780",
+    "page": "192-214",
+    "DOI": "10.1017/jfm.2015.437",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-piomelli-2015-jfm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanP14a",
+    "type": "article-journal",
+    "title": "Estimation and prediction of the roughness function on realistic surfaces",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Piomelli",
+        "given": "U."
+      }
+    ],
+    "container-title": "J. Turbul.",
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "volume": "15",
+    "page": "350-365",
+    "DOI": "10.1080/14685248.2014.907904",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-piomelli-2014-jturbul.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanYNPG14",
+    "type": "article-journal",
+    "title": "Modelling roughness and acceleration effects with application to the flow in a hydraulic turbine",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Nicolle",
+        "given": "J."
+      },
+      {
+        "family": "Piomelli",
+        "given": "U."
+      },
+      {
+        "family": "Giroux",
+        "given": "A.-M."
+      }
+    ],
+    "container-title": "IOP Conf. Ser.",
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "volume": "22",
+    "page": "022016",
+    "DOI": "10.1088/1755-1315/22/2/022016",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-etal-2014-iop.pdf",
+    "version": "vor"
+  },
+  {
+    "id": "YuanP14b",
+    "type": "article-journal",
+    "title": "Roughness effects on the Reynolds stress budgets in near-wall turbulence",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Piomelli",
+        "given": "U."
+      }
+    ],
+    "container-title": "J. Fluid Mech.",
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "volume": "760",
+    "page": "R1",
+    "DOI": "10.1017/jfm.2014.608",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-piomelli-2014-jfm.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "YuanP14",
+    "type": "article-journal",
+    "title": "Numerical simulations of sink-flow boundary layers over rough surfaces",
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "J."
+      },
+      {
+        "family": "Piomelli",
+        "given": "U."
+      }
+    ],
+    "container-title": "Phys. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "volume": "26",
+    "page": "015113",
+    "DOI": "10.1063/1.4862672",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/yuan-piomelli-2014-pof.pdf",
+    "version": "aam"
+  },
+  {
+    "id": "PiomelliY13",
+    "type": "article-journal",
+    "title": "Numerical simulations of spatially developing, accelerating boundary layers",
+    "author": [
+      {
+        "family": "Piomelli",
+        "given": "U."
+      },
+      {
+        "family": "Yuan",
+        "given": "J."
+      }
+    ],
+    "container-title": "Phys. Fluids",
+    "issued": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "volume": "25",
+    "page": "101304",
+    "DOI": "10.1063/1.4825033",
+    "pdfUrl": "https://pub-62f9e0d948db4306a81c3349af54b68b.r2.dev/papers/piomelli-yuan-2013-pof.pdf",
+    "version": "aam"
+  }
+]

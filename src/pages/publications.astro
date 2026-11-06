@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import pubsData from '../data/publications.csl.json';
+import { allScholarlyArticles } from '../lib/jsonld';
+import { rightsStatement, versionLabel } from '../lib/rights';
+import { toBibtex } from '../lib/pubs';
+
+type CSLName = { family?: string; given?: string; literal?: string };
+type CSLItem = {
+  id: string;
+  type: string;
+  title: string;
+  author?: CSLName[];
+  'container-title'?: string;
+  issued?: { 'date-parts'?: number[][] };
+  DOI?: string;
+  /** Self-hosted author-accepted PDF. version: 'author-accepted' | 'unverified'. */
+  pdfUrl?: string;
+  version?: string;
+  URL?: string;
+  volume?: string;
+  page?: string;
+};
+
+const pubs = pubsData as CSLItem[];
+
+// Lab members (PI + current + alumni, from the people collection) render bold in author
+// lists so the lab's contribution is scannable. Matching is first-initial + family name,
+// normalized for hyphen/space/diacritic variants ("Aghaei-Jouybari" vs "Aghaei Jouybari").
+// External collaborators (e.g. Giles Brereton) stay in the people collection for the
+// group-photo caption but are NOT lab members — exclude them from bolding.
+const peopleEntries = await getCollection('people');
+const normName = (s: string) =>
+  s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[-\s.]+/g, '');
+const memberKeys = new Set<string>();
+for (const person of peopleEntries) {
+  if (person.data.role === 'collaborator') continue;
+  const parts = person.data.name.trim().split(/\s+/);
+  if (parts.length < 2) continue;
+  memberKeys.add(`${parts[0][0].toLowerCase()}|${normName(parts.slice(1).join(' '))}`);
+}
+const isMember = (a: CSLName): boolean =>
+  !!a.given && !!a.family && memberKeys.has(`${a.given[0].toLowerCase()}|${normName(a.family)}`);
+const authorLabel = (a: CSLName) => a.literal ?? [a.given, a.family].filter(Boolean).join(' ');
+
+// Paper -> dataset cross-links (the Data page already links dataset -> paper; these are the
+// reverse). Every relatedPublications citekey is indexed; TODO placeholders are skipped.
+const datasetEntries = await getCollection('datasets');
+const datasetDoisByPub = new Map<string, string[]>();
+for (const d of datasetEntries) {
+  for (const key of d.data.relatedPublications ?? []) {
+    if (!key || /^TODO\(/.test(key) || !d.data.doi) continue;
+    const dois = datasetDoisByPub.get(key) ?? [];
+    if (!dois.includes(d.data.doi)) dois.push(d.data.doi);
+    datasetDoisByPub.set(key, dois);
+  }
+}
+
+function yearOf(p: CSLItem): number {
+  return p?.issued?.['date-parts']?.[0]?.[0] ?? 0;
+}
+
+// "996: A27 · 2024" / "434–460 · 2021" / "2024" — volume/page optional.
+function venueMeta(p: CSLItem): string {
+  const y = yearOf(p);
+  const vol = p.volume;
+  const pg = p.page;
+  let lead = '';
+  if (vol && pg) lead = `${vol}: ${pg}`;
+  else if (vol) lead = `${vol}`;
+  else if (pg) lead = `${pg}`;
+  return lead ? `${lead} · ${y}` : `${y}`;
+}
+
+const isConf = (p: CSLItem): boolean => p.type === 'paper-conference';
+
+// Group by display year. Anything 2018+ is its own group; everything <=2017
+// is folded into one "2013–17" group, mirroring the live site.
+type PubGroup = { label: string; sort: number; items: CSLItem[] };
+const groups = new Map<string, PubGroup>(); // key -> { label, sort, items: [] }
+for (const p of pubs) {
+  const y = yearOf(p);
+  const key = y >= 2018 ? String(y) : 'pre2018';
+  const label = y >= 2018 ? String(y) : '2013–17';
+  const sort = y >= 2018 ? y : 2017; // pre-2018 bucket sorts at the 2017 slot
+  let group = groups.get(key);
+  if (!group) {
+    group = { label, sort, items: [] };
+    groups.set(key, group);
+  }
+  group.items.push(p);
+}
+const orderedGroups = [...groups.values()].sort((a, b) => b.sort - a.sort);
+
+const jsonld = allScholarlyArticles();
+const base = (Astro.site ?? new URL('https://tsmlabmsu.com')).origin;
+const extraAlternates = [
+  { type: 'application/json', title: 'Publications (CSL-JSON)', href: `${base}/publications.csl.json` },
+  { type: 'application/x-bibtex', title: 'Publications (BibTeX)', href: `${base}/publications.bib` },
+];
+---
+<BaseLayout active="publications" title="Publications — TSM Lab @ MSU" jsonld={jsonld} extraAlternates={extraAlternates}>
+
+    <main id="main">
+      <section class="pad" style="max-width:880px;margin:0 auto;padding:72px 64px 20px;">
+        <div style="display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;"><span aria-hidden="true" style="width:26px;height:1px;background:var(--accent);flex:none;"></span><span>Publications</span></div>
+        <h1 class="h1" style="font-family:var(--serif);font-weight:600;font-size:clamp(2.2rem,1.6rem+2.2vw,3rem);line-height:1.05;letter-spacing:-.6px;margin:0;">Papers &amp; proceedings</h1>
+        <p style="font-size:clamp(1rem,.95rem+.4vw,1.15rem);line-height:1.6;color:var(--ink2);max-width:60ch;margin:20px 0 0;">Peer-reviewed journal articles and selected conference papers, newest first.</p>
+      </section>
+
+      <section class="pad reveal" style="max-width:880px;margin:0 auto;padding:8px 64px 12px;">
+        <div class="machine-box" style="display:flex;flex-wrap:wrap;gap:18px 36px;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--line);border-radius:4px;padding:18px 22px;">
+          <div style="font-size:13px;color:var(--muted);">Citations &amp; site metadata are <a href="https://creativecommons.org/licenses/by/4.0/" style="color:var(--ink2);text-decoration:underline;text-underline-offset:3px;">CC-BY 4.0</a>; hosted PDFs are author manuscripts under each publisher's terms. Machine-readable exports:</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px 18px;">
+            <a class="publink" href="/publications.bib">publications.bib</a>
+            <a class="publink" href="/publications.csl.json">publications.csl.json</a>
+            <a class="publink" href="/api/publications.json">api/publications.json</a>
+            <a class="publink" href="/datasets.json">datasets.json</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="pad" style="max-width:880px;margin:0 auto;padding:28px 64px 80px;">
+
+        {orderedGroups.map((g) => (
+          <div class="pubyear reveal" style="display:grid;grid-template-columns:150px 1fr;gap:36px;padding:24px 0;border-top:1px solid var(--line2);">
+            <div class="pubyear-label" style="position:sticky;top:var(--hdr-offset);align-self:start;font-family:var(--serif);font-weight:500;font-size:40px;letter-spacing:-1px;color:var(--line2);height:fit-content;">{g.label}</div>
+            <ul style="list-style:none;margin:0;padding:0;">
+              {g.items.map((p, i) => (
+                <li id={p.id} style={`padding:${i === 0 ? '0 0 20px' : '18px 0 20px'};${i === 0 ? '' : 'border-top:1px solid var(--line);'}`}>
+                  <div style="font-family:var(--serif);font-size:17.5px;line-height:1.4;color:var(--ink);font-weight:600;letter-spacing:-.1px;margin-bottom:6px;">{p.title}</div>
+                  <div style="font-size:13.5px;color:var(--muted);margin-bottom:7px;">{(p.author ?? []).map((a, ai) => (
+                    <>{ai > 0 ? ', ' : ''}<span style={isMember(a) ? 'color:var(--ink2);font-weight:600;' : undefined}>{authorLabel(a)}</span></>
+                  ))}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;font-size:13px;">
+                    {isConf(p) && (
+                      <span style="font-family:var(--mono);font-size:11px;color:var(--muted2);border:1px solid var(--line);border-radius:2px;padding:1px 6px;">Conference</span>
+                    )}
+                    <cite style="font-style:italic;color:var(--ink2);">{p['container-title']}</cite>
+                    <span style="color:var(--muted2);">{venueMeta(p)}</span>
+                    {p.DOI && (
+                      <a class="publink" href={`https://doi.org/${p.DOI}`}>DOI ↗</a>
+                    )}
+                    {p.pdfUrl && (
+                      <a class="publink" href={p.pdfUrl} target="_blank" rel="noopener">PDF ↗</a>
+                    )}
+                    {(datasetDoisByPub.get(p.id) ?? []).map((doi, datasetIndex) => (
+                      <a class="publink" href={`https://doi.org/${doi}`} aria-label={`Dataset ${datasetIndex + 1} for ${p.title}`}>Dataset ↗</a>
+                    ))}
+                    <button type="button" class="publink bibcopy" data-bibtex={toBibtex(p)} hidden>Copy BibTeX</button>
+                  </div>
+                  {p.pdfUrl && versionLabel(p.version) && (
+                    <div class="pubrights" title={rightsStatement(p) ?? ''} style="font-size:11px;color:var(--muted2);margin-top:5px;">{versionLabel(p.version)} · publisher terms</div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+
+      </section>
+      <span id="bibtex-copy-status" class="sr-only" role="status" aria-live="polite"></span>
+    </main>
+
+<style>
+  /* Page-specific: .publink token + publications responsive overrides (not in global.css). */
+  .publink{font-family:var(--mono);font-size:12px;letter-spacing:.3px;color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb, var(--accent) 40%, transparent);padding-bottom:1px;}
+  /* "Copy BibTeX" is a <button> dressed as a .publink; hidden until the inline script
+     below confirms the Clipboard API exists (no dead control without JS). */
+  .bibcopy{background:none;border:none;border-bottom:1px solid color-mix(in srgb, var(--accent) 40%, transparent);padding:0 0 1px;cursor:pointer;line-height:inherit;}
+  @media (max-width:760px){
+    .pubyear{grid-template-columns:1fr !important;gap:6px !important;}
+    .pubyear-label{position:static !important;font-size:30px !important;}
+    .machine-box{flex-direction:column !important;}
+  }
+</style>
+
+<script is:inline>
+  // Per-entry citation copy: the BibTeX payload is pre-rendered into data-bibtex at build
+  // (same generator as /publications.bib), so this only moves it to the clipboard.
+  (function () {
+    if (!(navigator.clipboard && navigator.clipboard.writeText)) return;
+    var status = document.getElementById('bibtex-copy-status');
+    document.querySelectorAll('button.bibcopy').forEach(function (b) {
+      b.hidden = false;
+      b.addEventListener('click', function () {
+        Promise.resolve().then(function () {
+          return navigator.clipboard.writeText(b.dataset.bibtex);
+        }).then(function () {
+          if (b.dataset.t) clearTimeout(Number(b.dataset.t));
+          b.textContent = 'Copied ✓';
+          if (status) status.textContent = 'BibTeX copied to clipboard.';
+          b.dataset.t = String(setTimeout(function () { b.textContent = 'Copy BibTeX'; }, 1400));
+        }, function () {
+          if (b.dataset.t) clearTimeout(Number(b.dataset.t));
+          b.textContent = 'Copy failed';
+          if (status) status.textContent = 'Could not copy BibTeX. Download publications.bib to copy it manually.';
+          b.dataset.t = String(setTimeout(function () { b.textContent = 'Copy BibTeX'; }, 2200));
+        });
+      });
+    });
+  })();
+</script>
+</BaseLayout>

@@ -1,0 +1,6 @@
+# Retracted wording that must never be republished (checked by scripts/check-publish.mjs).
+# Each line: <word count> <sha256 of the normalized phrase>. Normalized = lowercase, every run of
+# non-alphanumeric characters is one space. Only hashes are stored, so this file does not
+# republish the wording. Add a phrase with: node scripts/check-publish.mjs --hash "<phrase>"
+6 b4d8b0dd081b609d6d90c4ca2ad523df5a4ab1c07e5bc7952489694199fa69d4
+5 dc654d1830c3990d59e92b5fd9267fb3d97cf9eb67e69fa0d39e01d626b7fe98
