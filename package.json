@@ -23,7 +23,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@playwright/test": "^1.64.1",
-    "@rollup/plugin-yaml": "^5.0.0",
+    "@rollup/plugin-yaml": "^5.0.1",
     "@types/node": "^26.6.6",
     "js-yaml": "^5.5.0",
     "typescript": "^5.6.0"
